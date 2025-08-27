@@ -1,4 +1,3 @@
-// src/components/UserDisplay.tsx
 import {useEffect, useState} from 'react';
 import type {User} from '../types/user';
 
