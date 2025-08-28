@@ -20,8 +20,9 @@
 input {
   padding: 0.5rem;
   border: 1px solid #ccc;
-  border-radius: 4px;
-  max-width: 300px;
+  border-radius: 6px;
+  min-width: 300px;
+  max-width: 600px;
 }
 
 input.error {
@@ -37,4 +38,12 @@ input.error.shake {
   color: #ff4444;
   font-size: 0.875rem;
   margin-top: 0.25rem;
+}
+
+.form-input{
+  margin: 0.5rem;
+}
+
+.form-submit{
+  margin: 1rem;
 }

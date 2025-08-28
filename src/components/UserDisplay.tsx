@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import {type JSX, useEffect, useState} from 'react';
 import type {User} from '../types/user';
 
 interface UserDisplayProps {
@@ -6,15 +6,15 @@ interface UserDisplayProps {
 }
 
 export function UserDisplay({user}: UserDisplayProps) {
-    const [displayText, setDisplayText] = useState('');
+    const [displayText, setDisplayText] = useState<JSX.Element>();
 
     useEffect(() => {
         if (user) {
             setDisplayText(
-                `My name is ${user.name} ${user.surname}. My favourite cities are: ${user.favouriteCities.join(', ')}`
+               <>My name is <b>{user.name} {user.surname}</b>. My favourite cities are: {user.favouriteCities.join(', ')}</>
             );
         } else {
-            setDisplayText('');
+            setDisplayText(<></>);
         }
     }, [user]);
 

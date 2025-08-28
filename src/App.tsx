@@ -12,8 +12,7 @@ function App() {
             <div>
                 <UserForm onSubmit={setUser} />
                 <UserDisplay user={user} />
-            </div>
-            
+            </div>            
         </>
     )
 }

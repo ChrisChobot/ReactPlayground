@@ -97,34 +97,48 @@ export function UserForm({onSubmit}: UserFormProps) {
     }, [shake]);
 
     return (
-        <form onSubmit={handleSubmit}>
-            <input
-                type="text"
-                value={tempName}
-                onChange={e => handleNameChange(e.target.value, 'name')}
-                className={`${errors?.name ? 'error' : ''} ${shake.includes('name') ? 'shake' : ''}`}
-                placeholder="Enter name"
-            />
-            {errors?.name && <div className="error-message">{errors.name}</div>}
+        <>
+            <h3>
+                Enter your name, surname and favourite cities
+            </h3>
 
-            <input
-                type="text"
-                value={tempSurname}
-                onChange={e => handleNameChange(e.target.value, 'surname')}
-                className={`${errors?.surname ? 'error' : ''} ${shake.includes('surname') ? 'shake' : ''}`}
-                placeholder="Enter surname"
-            />
-            {errors?.surname && <div className="error-message">{errors.surname}</div>}
+            <form onSubmit={handleSubmit}>
+                <div className={'form-input'}>
+                    <input
+                        type="text"
+                        value={tempName}
+                        onChange={e => handleNameChange(e.target.value, 'name')}
+                        className={`${errors?.name ? 'error' : ''} ${shake.includes('name') ? 'shake' : ''}`}
+                        placeholder="name"
+                    />
+                    {errors?.name && <div className="error-message">{errors.name}</div>}
+                </div>
 
-            <input
-                type="text"
-                value={tempFavouriteCities}
-                onChange={e => handleCitiesChange(e.target.value)}
-                className={`${errors?.cities ? 'error' : ''} ${shake.includes('cities') ? 'shake' : ''}`}
-                placeholder="Enter 5 cities separated by commas"
-            />
-            {errors?.cities && <div className="error-message">{errors.cities}</div>}
-            <button type="submit">Start</button>
-        </form>
+                <div className={'form-input'}>
+                    <input
+                        type="text"
+                        value={tempSurname}
+                        onChange={e => handleNameChange(e.target.value, 'surname')}
+                        className={`${errors?.surname ? 'error' : ''} ${shake.includes('surname') ? 'shake' : ''}`}
+                        placeholder="surname"
+                    />
+                    {errors?.surname && <div className="error-message">{errors.surname}</div>}
+                </div>
+
+                <div className={'form-input'}>
+                    <input
+                        type="text"
+                        value={tempFavouriteCities}
+                        onChange={e => handleCitiesChange(e.target.value)}
+                        className={`${errors?.cities ? 'error' : ''} ${shake.includes('cities') ? 'shake' : ''}`}
+                        placeholder="5 cities separated by commas"
+                    />
+                    {errors?.cities && <div className="error-message">{errors.cities}</div>}
+                </div>
+                
+                {/*inline style on purpose*/} 
+                <button type="submit" className="form-submit" style={{backgroundColor: '#8AD966', color: '#2B2B2B'}}>Start</button>
+            </form>
+        </>
     );
 }
