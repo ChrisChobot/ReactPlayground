@@ -47,3 +47,7 @@ input.error.shake {
 .form-submit{
   margin: 1rem;
 }
+
+.user-display{
+  font-size: 18px;
+}

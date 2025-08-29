@@ -1,4 +1,3 @@
-import {type JSX, useEffect, useState} from 'react';
 import type {User} from '../types/user';
 
 interface UserDisplayProps {
@@ -6,24 +5,17 @@ interface UserDisplayProps {
 }
 
 export function UserDisplay({user}: UserDisplayProps) {
-    const [displayText, setDisplayText] = useState<JSX.Element>();
-
-    useEffect(() => {
-        if (user) {
-            setDisplayText(
-               <>My name is <b>{user.name} {user.surname}</b>. My favourite cities are: {user.favouriteCities.join(', ')}</>
-            );
-        } else {
-            setDisplayText(<></>);
-        }
-    }, [user]);
-
-    if (!user) return null;
+    if (!user || (!user.name.trim() && !user.surname.trim()) || user.favouriteCities.length === 0) {
+        return <></>;
+    }
 
     return (
         <div className="user-display">
             <h3>User Information:</h3>
-            <p>{displayText}</p>
+            <p>
+                My name is <b>{user.name} {user.surname}</b>. My favourite cities
+                are: {user.favouriteCities.join(', ')}
+            </p>
         </div>
     );
 }
