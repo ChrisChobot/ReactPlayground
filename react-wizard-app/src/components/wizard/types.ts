@@ -13,6 +13,6 @@ export interface StepProps {
     formData: FormData;
     handleInput: (e: React.ChangeEvent<HTMLInputElement>) => void;
     errors: FormErrors;
-    handleBlur?: (e: React.FocusEvent<HTMLInputElement>) => void; // <-- Add event type here
+    handleBlur?: (e: React.FocusEvent<HTMLInputElement>) => void; 
     onImageFetch?: (url: string) => void;
 }

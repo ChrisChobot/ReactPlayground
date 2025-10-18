@@ -11,6 +11,10 @@ const step1Schema = Yup.object({
         .matches(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, 'Email is not valid.'),
 });
 
+const step2Schema = Yup.object({
+    terms: Yup.boolean().isTrue('You must accept the terms and conditions.'),
+});
+
 const Wizard: React.FC = () => {
     const [step, setStep] = useState(1);
     const [formData, setFormData] = useState<FormData>({
@@ -22,85 +26,70 @@ const Wizard: React.FC = () => {
     const [errors, setErrors] = useState<FormErrors>({});
     const [touchedFields, setTouchedFields] = useState<Record<string, boolean>>({});
 
-
     const stepFields: Record<number, (keyof FormData)[]> = {
         1: ['name', 'email'],
-        2: ['terms'],
-        3: ['imageUrl'],
+        2: ['terms', 'imageUrl']
     };
 
     const hasStepErrors = (step: number): boolean => {
         const fields = stepFields[step];
         return fields.some((field) => errors[field] != null);
     };
-    /*  const [isInitialMount, setIsInitialMount] = useState(true);
-    
-      useEffect(() => {
-        if (isInitialMount) {
-          setIsInitialMount(false);
-        } else {
-          validate();
-        }
-      }, [formData, step]);*/
+
     const handleBlur = async (e: React.FocusEvent<HTMLInputElement>) => {
         const {name} = e.target;
 
-        if(!touchedFields[name]){
+        if (!touchedFields[name]) {
             await new Promise(resolve => {
                 setTouchedFields(prev => {
                     const newState = {...prev, [name]: true};
-                    resolve(newState); // Resolve with the new state
+                    resolve(newState);
                     return newState;
                 });
             }).then((newState: any) => {
-                // Now validate with the new state
                 validate(name as keyof FormData, newState);
             });
-        }       
-
+        }
     };
 
-    const validate = async (fieldName?: keyof FormData, tt?: Record<string, boolean>, newestFormData?:FormData): Promise<boolean> => {
+    const validate = async (fieldName?: keyof FormData, newestTouchedFields?: Record<string, boolean>, newestFormData?: FormData): Promise<boolean> => {
         try {
             if (step === 1) {
-                if (fieldName && tt) {
-                   let anyError = false;
-                        for (const [key, value] of Object.entries(tt)) {
-                            if (value) {
-                                try {
+                if (fieldName && newestTouchedFields) {
+                    let anyError = false;
+                    for (const [key, value] of Object.entries(newestTouchedFields)) {
+                        if (value) {
+                            try {
                                 await step1Schema.validateAt(key, newestFormData);
                                 setErrors(prev => ({
                                     ...prev,
                                     [key]: undefined
                                 }));
-                                } catch (err) {
-                                    if (err instanceof Yup.ValidationError) {
-                                        anyError = true;
-                                        const newErrors: FormErrors = {};
-                                        err.errors.forEach(error => {
-                                            newErrors[err.path as keyof FormData] = error;
-                                        });
-                                        setErrors(prev => ({
-                                            ...prev,
-                                            [err.path!]: newErrors
-                                        }));
-                                    }
+                            } catch (err) {
+                                if (err instanceof Yup.ValidationError) {
+                                    anyError = true;
+                                    const newErrors: FormErrors = {};
+                                    err.errors.forEach(error => {
+                                        newErrors[err.path as keyof FormData] = error;
+                                    });
+                                    setErrors(prev => ({
+                                        ...prev,
+                                        [err.path!]: newErrors
+                                    }));
                                 }
                             }
                         }
+                    }
                     return !anyError;
-                } else {
-                    // For 'Next' button, validate all fields
+                } else { // For 'Next' button, validate all fields
                     await step1Schema.validate(formData, {abortEarly: false});
                     setErrors({});
                     return true;
                 }
-                //  await step1Schema.validate(formData, { abortEarly: false });
             } else if (step === 2) {
-                if (!(newestFormData?.terms ?? formData.terms)) {
-                    setErrors({terms: 'You must accept the terms and conditions.'});
-                    return false;
-                }
+                await step2Schema.validate(newestFormData ?? formData, {abortEarly: false});
+                setErrors({});
+                return true;
             }
             setErrors({});
             return true;
@@ -112,7 +101,7 @@ const Wizard: React.FC = () => {
                         newErrors[error.path as keyof FormData] = error.message;
                     }
                 });
-                setErrors( newErrors);
+                setErrors(newErrors);
             }
             return false;
         }
@@ -127,25 +116,18 @@ const Wizard: React.FC = () => {
     const prevStep = () => setStep(prev => prev - 1);
 
     const handleInput = async (e: React.ChangeEvent<HTMLInputElement>) => {
-        const {name} = e.target;
-        setTouchedFields(prev => {
-            return {...prev, [name]: true};
-        });
-
         await new Promise(resolve => {
             const {name, value, type, checked} = e.target;
 
-            const newState = {...formData, [name]: type === 'checkbox' ? checked : value};
-            setFormData(prev => ({
-                ...prev, [name]: type === 'checkbox' ? checked : value
-            }));
-            
-           
-            resolve(newState);
-        }).then((newState: any) => {
-            // Now validate with the new state
+            const newFormData = {...formData, [name]: type === 'checkbox' ? checked : value};
+            const newTouchedFields = {...touchedFields, [name]: true};
+
+            setFormData(newFormData);
+            setTouchedFields(newTouchedFields);
+            resolve({newFormData, newTouchedFields});
+        }).then(({newFormData, newTouchedFields}: any) => {
             const {name} = e.target;
-            validate(name as keyof FormData, { ...touchedFields, [name]: true }, newState);
+            validate(name as keyof FormData, newTouchedFields, newFormData);
         });
     };
 
