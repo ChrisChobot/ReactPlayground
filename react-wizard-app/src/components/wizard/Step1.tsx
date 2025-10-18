@@ -1,10 +1,10 @@
 // src/components/wizard/Step1.tsx
 import React from 'react';
-import { StepProps } from './types';
-import { StepContainer } from './shared';
+import {StepProps} from './types';
+import {StepContainer} from './shared';
 import Input from '../common/Input';
 
-const Step1: React.FC<StepProps> = ({ formData, handleInput, errors, handleBlur }) => {
+const Step1: React.FC<StepProps> = ({formData, handleInput, errors, handleBlur}) => {
     return (
         <StepContainer>
             <Input

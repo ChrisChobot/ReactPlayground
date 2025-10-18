@@ -4,6 +4,16 @@ import Step1 from './Step1';
 import Step2 from './Step2';
 import Step3 from './Step3';
 import {FormData, FormErrors} from './types';
+import styled from "styled-components";
+
+export const WizardBox = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+`;
 
 const step1Schema = Yup.object({
     name: Yup.string().required('Name is required.'),
@@ -165,7 +175,7 @@ const Wizard: React.FC = () => {
     };
 
     return (
-        <div>
+        <WizardBox>
             <h2>Step {step}</h2>
             {renderStep()}
             <div>
@@ -174,7 +184,7 @@ const Wizard: React.FC = () => {
                 {step === 2 && <button onClick={nextStep} disabled={hasStepErrors(2)}>Next</button>}
                 {step === 3 && <button onClick={handleSubmit}>Submit</button>}
             </div>
-        </div>
+        </WizardBox>
     );
 };
 
