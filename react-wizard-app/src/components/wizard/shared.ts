@@ -13,6 +13,4 @@ export const ErrorMessage = styled.p`
     color: red;
     font-size: 0.8em;
     font-weight: 500;
-    opacity: 1;
-    transition: none;
 `;

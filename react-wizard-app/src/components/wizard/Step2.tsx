@@ -35,7 +35,6 @@ const Step2: React.FC<StepProps> = ({formData, handleInput, errors, onImageFetch
     return (
         <StepContainer>
             {formData.imageUrl && <RandomImage src={formData.imageUrl} alt="Random unsplash image"/>}
-
             <CheckboxLabel>
                 <CheckboxInput
                     type="checkbox"
