@@ -1,7 +1,8 @@
 import React, {useEffect} from 'react';
 import styled from 'styled-components';
 import {StepProps} from './types';
-import {ErrorMessage, StepContainer} from './shared';
+import {StepContainer} from './shared';
+import {ErrorMessage} from '../common/ErrorMessage';
 
 const CheckboxLabel = styled.label`
     display: flex;

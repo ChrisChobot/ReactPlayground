@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import {ErrorMessage} from '../wizard/shared';
+import {ErrorMessage} from './ErrorMessage';
 
 const InputRow = styled.div`
     display: flex;
