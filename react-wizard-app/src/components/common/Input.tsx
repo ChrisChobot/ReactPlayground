@@ -43,9 +43,9 @@ const Input: React.FC<InputProps> = ({label, name, error, onBlur, ...rest}) => {
     return (
         <>
             <InputRow>
-                <StyledLabel>{label}</StyledLabel>
+                <StyledLabel htmlFor={name}>{label}</StyledLabel>
                 <InputWrapper>
-                    <StyledInput name={name} onBlur={onBlur} {...rest} />
+                    <StyledInput id={name} name={name} onBlur={onBlur} {...rest} />
                     <ErrorContainer>{errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}</ErrorContainer>
                 </InputWrapper>
             </InputRow>

@@ -1,4 +1,3 @@
-// src/components/wizard/Step1.tsx
 import React from 'react';
 import {StepProps} from './types';
 import {StepContainer} from './shared';

@@ -1,3 +1,2 @@
-# React + TypeScript + Vite
+Simple input demo with hand made validation
 
-This project is just a playground to test and learn without any special purpose
